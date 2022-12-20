@@ -113,7 +113,6 @@ body{
     border: 1px solid rgba(255, 255, 255, 0.4);
 }
 .side-control-page-1 .zoom,
-.side-control-page-1 .rotate,
 .side-control-page-1 .flip,
 .side-control-page-1 .move{
     padding-left: 20px;
