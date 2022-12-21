@@ -42,7 +42,7 @@ body{
 .preview-container{
     border: 2px solid rgba(255, 255, 255, 0.239);
     position: absolute;
-    top: 20px;
+    top: 0px;
     right: 20px;
     width: 200px;
     min-height: 50px;
@@ -56,13 +56,13 @@ body{
 .preview-container span{
     position: absolute;
     top: 66px;
-    left: 70px;
+    left: 45px;
 }
 /* shift button */
 .side-controls-shifter{
     position: absolute;
     right: 20px;
-    top: 177px;
+    top: 150px;
     user-select: none;
 }
 .side-controls-shifter svg{
@@ -79,10 +79,12 @@ body{
 .side-control-page-1,
 .side-control-page-2{
     position: absolute;
-    right: 20px;
-    bottom: 116px;
+    right: 0px;
+    bottom: 99px;
     user-select: none;
-    width: 267px;
+    height: 110px;
+    width: 250px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.239);
 }
 .side-control-page-1 span,
 .side-control-page-2 span{
@@ -94,8 +96,9 @@ body{
     list-style: none;
     height: 2px;
     display: inline-block;
-    margin-left: 60px;
+    margin-left: 55px;
     margin-top: 6px;
+    border-bottom: 2px;
     position: relative;
 }
 .side-control-page-1 li svg{
@@ -105,6 +108,7 @@ body{
     padding: 0px;
     transition-duration: .4s;
     margin-left: 10px;
+    margin-bottom: 10px;
     border: 1px solid transparent;
     fill: white;
     background-color: rgba(255, 255, 255, 0.129);
@@ -113,20 +117,23 @@ body{
     border: 1px solid rgba(255, 255, 255, 0.4);
 }
 .side-control-page-1 .zoom,
-.side-control-page-1 .rotate,
-.side-control-page-1 .flip,
-.side-control-page-1 .move{
-    padding-left: 20px;
+.side-control-page-1 .flip{
+    padding-left: 0px;
+    padding-right: 20px;
     margin-bottom: 0px;
     margin-top: 10px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.239);
+    /* border-bottom: 1px solid rgba(255, 255, 255, 0.239); */
     height: 15px;
 }
-.side-control-page-2{
-    top: 205px;
+
+.side-control-page-1 .zoom{
+    margin-bottom: 33px;
 }
+
+
 .side-control-page-2 .aspect{
-    margin-left: 2px;
+    margin-left: 20px;
+    margin-top: 30px;
 }
 .side-control-page-2 .aspect span{
     padding-left: 19px;
@@ -134,8 +141,9 @@ body{
 .side-control-page-2 li{
     font-size: 15px;
     margin-left: 0px;
-    padding: 10px;
-    background-color: rgba(255, 255, 255, 0.129);
+    padding: 5px;
+    padding-bottom: 21px;
+    background-color: rgba(255, 255, 255, 0.25);
     color: rgb(234, 234, 234);
     border-radius: 3px;
     border: 1px solid transparent;
