@@ -113,6 +113,7 @@ body{
     border: 1px solid rgba(255, 255, 255, 0.4);
 }
 .side-control-page-1 .zoom,
+.side-control-page-1 .rotate,
 .side-control-page-1 .flip,
 .side-control-page-1 .move{
     padding-left: 20px;
@@ -150,9 +151,44 @@ body{
     bottom: 0px;
     border-right: 1px solid rgba(255, 255, 255, 0.239);
 }
-.action-button .upload,
-.action-button .download{
+.action-button .upload{
     display: block;
+    width: 170px;
+    height: 35px;
+    margin: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+    background-color: rgba(255, 255, 255, 0.129);
+    color: white;
+    border-radius: 3px;
+    outline: none;
+    transition-duration: .2s;
+    font-family: 'Maven Pro', sans-serif;
+    cursor: pointer;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+
+.merge-btn{
+    display: block;
+    width: 170px;
+    height: 35px;
+    margin: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+    background-color: rgba(255, 255, 255, 0.129);
+    color: white;
+    border-radius: 3px;
+    outline: none;
+    transition-duration: .2s;
+    font-family: 'Maven Pro', sans-serif;
+    cursor: pointer;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.action-button .download{
+    display: none;
     width: 170px;
     height: 35px;
     margin: 10px;
