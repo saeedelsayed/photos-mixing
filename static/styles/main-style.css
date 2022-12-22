@@ -255,3 +255,24 @@ body{
 .bottom-control li svg:active{
     border: 1px solid rgba(255, 255, 255, 0.4);
 }
+
+.merged-image-container{
+    background-color: rgba(255, 255, 255, 0.229);
+    padding: 20px;
+    position: relative;
+    width: 450px;
+    height: 310px;
+    right: 50%;
+    top: 5px;
+    border-radius: 4px;
+    border-right: 1px solid rgba(255, 255, 255, 0.239);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.239);
+}
+
+
+.merged-image-workspace{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
