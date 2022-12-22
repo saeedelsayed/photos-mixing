@@ -15,9 +15,9 @@ var preview_containerSpan = document.querySelectorAll(
 );
 
 var zoom = document.querySelectorAll(".side-control-page-1 .zoom svg");
-var rotate = document.querySelectorAll(".side-control-page-1 .rotate svg");
+// var rotate = document.querySelectorAll(".side-control-page-1 .rotate svg");
 var flip = document.querySelectorAll(".side-control-page-1 .flip svg");
-var move = document.querySelectorAll(".side-control-page-1 .move svg");
+// var move = document.querySelectorAll(".side-control-page-1 .move svg");
 var aspectRatio = document.querySelectorAll(".side-control-page-2 .aspect li");
 var controlCropper = document.querySelectorAll(
   ".bottom-control .ctrl-cropper svg"
@@ -76,7 +76,7 @@ hiddenUpload.onchange = () => {
   preview_containerSpan[index].style.display = "none";
 
   var options = {
-    dragMode: "move",
+    // dragMode: "move",
     preview: `.img-preview-${index + 1}`,
     viewMode: 2,
     modal: false,
@@ -88,8 +88,8 @@ hiddenUpload.onchange = () => {
       zoom[index * 2 + 1].onclick = () => cropper.zoom(-0.1);
 
       // rotate image
-      rotate[0 + index * 2].onclick = () => cropper.rotate(45);
-      rotate[1 + index * 2].onclick = () => cropper.rotate(-45);
+      // rotate[0 + index * 2].onclick = () => cropper.rotate(45);
+      // rotate[1 + index * 2].onclick = () => cropper.rotate(-45);
 
       // flip image
       var flipX = -1;
@@ -104,10 +104,10 @@ hiddenUpload.onchange = () => {
       };
 
       // move image
-      move[0 + index * 4].onclick = () => cropper.move(0, -1);
-      move[1 + index * 4].onclick = () => cropper.move(-1, 0);
-      move[2 + index * 4].onclick = () => cropper.move(1, 0);
-      move[3 + index * 4].onclick = () => cropper.move(0, 1);
+      // move[0 + index * 4].onclick = () => cropper.move(0, -1);
+      // move[1 + index * 4].onclick = () => cropper.move(-1, 0);
+      // move[2 + index * 4].onclick = () => cropper.move(1, 0);
+      // move[3 + index * 4].onclick = () => cropper.move(0, 1);
 
       // set aspect ratio
       aspectRatio[0 + 5 * index].onclick = () =>
@@ -127,9 +127,9 @@ hiddenUpload.onchange = () => {
       lockCropper[0 + index * 2].onclick = () => cropper.disable();
       lockCropper[1 + index * 2].onclick = () => cropper.enable();
 
-      // drag mode
-      dargMode[0 + index * 2].onclick = () => cropper.setDragMode("crop");
-      dargMode[1 + index * 2].onclick = () => cropper.setDragMode("move");
+      // // drag mode
+      // dargMode[0 + index * 2].onclick = () => cropper.setDragMode("crop");
+      // dargMode[1 + index * 2].onclick = () => cropper.setDragMode("move");
 
       // download cropped image
       actionButton[1 + index * 2].onclick = () => {
@@ -156,17 +156,18 @@ hiddenUpload.onchange = () => {
 document.querySelector(".merge-btn").onclick = function () {
   actionButton[1].click();
   actionButton[3].click();
+  // BUG  should send the photos or their name
   axios
     .post(
-      "/merge",
-      {
-        formData,
-      },
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
+      "/merge"
+      // {
+      //   formData,
+      // },
+      // {
+      //   headers: {
+      //     "Content-Type": "multipart/form-data",
+      //   },
+      // }
     )
     .then(
       (response) => {

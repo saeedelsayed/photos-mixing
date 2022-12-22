@@ -17,6 +17,7 @@ def fun():
     # print(request.form['formData'])
     # imageFile = request.files.get('file','')
     # print(request.files)
+    print('diaa')
     return (request.files)
 
 
