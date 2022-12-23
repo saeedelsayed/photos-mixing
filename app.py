@@ -13,12 +13,14 @@ def home():
 
 @skills_app.route('/merge', methods=['POST'])
 def fun():
-    # print('diaa')
-    # print(request.form['formData'])
-    # imageFile = request.files.get('file','')
-    # print(request.files)
-    print('diaa')
-    return (request.files)
+    # names of the images
+    fImage=request.values['fImage']
+    fImageCropped=request.values['fImageCropped']
+    sImage=request.values['sImage']
+    sImageCropped=request.values['sImageCropped']
+    print(fImage,fImageCropped,sImage,sImageCropped)
+    
+    return ("generated photo name")
 
 
 if __name__ == "__main__":

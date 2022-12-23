@@ -62,7 +62,9 @@ actionButton[2].onclick = function () {
   index = 1;
   hiddenUpload.click();
 };
-hiddenUpload.onchange = () => {
+const filesArray = new Array(4);
+let c = 0;
+hiddenUpload.onchange = async () => {
   // apdate on new file selected issue removed here
   document.querySelectorAll(".image-workspace")[
     index
@@ -87,10 +89,7 @@ hiddenUpload.onchange = () => {
       zoom[index * 2].onclick = () => cropper.zoom(0.1);
       zoom[index * 2 + 1].onclick = () => cropper.zoom(-0.1);
 
-      // rotate image
-      // rotate[0 + index * 2].onclick = () => cropper.rotate(45);
-      // rotate[1 + index * 2].onclick = () => cropper.rotate(-45);
-
+      
       // flip image
       var flipX = -1;
       var flipY = -1;
@@ -103,11 +102,6 @@ hiddenUpload.onchange = () => {
         flipY = -flipY;
       };
 
-      // move image
-      // move[0 + index * 4].onclick = () => cropper.move(0, -1);
-      // move[1 + index * 4].onclick = () => cropper.move(-1, 0);
-      // move[2 + index * 4].onclick = () => cropper.move(1, 0);
-      // move[3 + index * 4].onclick = () => cropper.move(0, 1);
 
       // set aspect ratio
       aspectRatio[0 + 5 * index].onclick = () =>
@@ -127,54 +121,47 @@ hiddenUpload.onchange = () => {
       lockCropper[0 + index * 2].onclick = () => cropper.disable();
       lockCropper[1 + index * 2].onclick = () => cropper.enable();
 
-      // // drag mode
-      // dargMode[0 + index * 2].onclick = () => cropper.setDragMode("crop");
-      // dargMode[1 + index * 2].onclick = () => cropper.setDragMode("move");
-
       // download cropped image
-      actionButton[1 + index * 2].onclick = () => {
+      actionButton[1 + index * 2].onclick = async () => {
         actionButton[1].innerText = "...";
-        cropper.getCroppedCanvas().toBlob((blob) => {
+        cropper.getCroppedCanvas().toBlob(async (blob) => {
           var downloadUrl = window.URL.createObjectURL(blob);
           var a = document.createElement("a");
           a.href = downloadUrl;
-          a.download = `cropped-image-${index}.png`; // output image name
+          const fileName = `${file.name}-cropped`;
+          a.download = fileName; // output image name
           a.click();
           actionButton[1].innerText = "Download";
-
-          let file = new File([blob], "image1.png");
-          const formData = new FormData();
-          formData.append("file", file);
+          filesArray[c % 4] = file.name;
+          c++;
+          filesArray[c % 4] = fileName;
+          c++;
         });
       };
     },
   };
 
-  var cropper = new Cropper(image_workspace, options);
+  var cropper = await new Cropper(image_workspace, options);
 };
 
-document.querySelector(".merge-btn").onclick = function () {
+document.querySelector(".merge-btn").onclick = async function () {
   actionButton[1].click();
   actionButton[3].click();
-  // BUG  should send the photos or their name
-  axios
-    .post(
-      "/merge"
-      // {
-      //   formData,
-      // },
-      // {
-      //   headers: {
-      //     "Content-Type": "multipart/form-data",
-      //   },
-      // }
-    )
-    .then(
-      (response) => {
-        console.log(response);
+  setTimeout(() => {
+    $.ajax({
+      type: "POST",
+      url: "/merge",
+      data: {
+        fImage: filesArray[0],
+        fImageCropped: filesArray[1],
+        sImage: filesArray[2],
+        sImageCropped: filesArray[3],
       },
-      (error) => {
-        console.log(error);
-      }
-    );
+      async: true,
+      success: function (res) {
+        console.log(res);
+      },
+    });
+  }, 500);
+  // BUG  should send the photos or their name
 };

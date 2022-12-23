@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Image Cropper</title>
-    <link rel="stylesheet" href="./static/styles/main-style.css" />
+    <link rel="stylesheet" href="/static/styles/main-style.css" />
     <link rel="stylesheet" href="/static/styles/cropper.css" />
     <!-- for demo only -->
     <script src="../../../assets/js/script.demo.v0.06.js" defer></script>
@@ -275,6 +275,6 @@
 
     <script src="/static/js/cropper.js"></script>
     <script src="/static/js/main-script.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="{{url_for('static', filename = 'js/jquery-3.6.1.min.js')}}"></script>
   </body>
 </html>
