@@ -1,6 +1,10 @@
 /.vscode
 photos
-# *.jpg
-# !spec/*.jpg
-
 blood1.png
+*.jpg
+!spec/*.jpg
+*.png
+!spec/*.png
+*.jpeg
+!spec/*.jpeg
+__pycache__
