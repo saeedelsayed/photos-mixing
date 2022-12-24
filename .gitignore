@@ -1,6 +1,6 @@
 /.vscode
 photos
-# *.jpg
-# !spec/*.jpg
+*.jpg
+!spec/*.jpg
 
 blood1.png
