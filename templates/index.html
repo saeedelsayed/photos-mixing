@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Image Cropper</title>
-    <link rel="stylesheet" href="/static/styles/main-style.css" />
-    <link rel="stylesheet" href="/static/styles/cropper.css" />
+    <link rel= "stylesheet" type= "text/css" href= "{{url_for('static', filename = 'styles/main-style.css')}}">
+    <link rel= "stylesheet" type= "text/css" href= "{{url_for('static', filename = 'styles/cropper.css')}}">
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script
       async
@@ -263,7 +263,7 @@
       </div>
       <div class="merged-image-container">
         <div class="merged-image-workspace">
-          <img src="/blood1.png" alt="" />
+          <!-- <img src="/blood1.png" alt="" /> -->
           <!-- <span>merged image will appear here</span> -->
         </div>
       </div>
@@ -271,8 +271,9 @@
 
     
 
-    <script src="/static/js/cropper.js"></script>
-    <script src="/static/js/main-script.js"></script>
-    <script src="/static/js/jquery-3.6.1.min.js"></script>
+    <script src="{{url_for('static', filename = 'js/cropper.js')}}"></script>
+    <script src="{{url_for('static', filename = 'js/main-script.js')}}"></script>
+    <script src="{{url_for('static', filename = 'js/jquery-3.6.1.min.js')}}"></script>
+    
   </body>
 </html>

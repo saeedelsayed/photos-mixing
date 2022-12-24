@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 
 
-skills_app = Flask(__name__)
+skills_app = Flask(__name__,static_url_path='')
 
 
 @skills_app.route("/")
@@ -21,6 +21,7 @@ def fun():
     print(fImage,fImageCropped,sImage,sImageCropped)
     
     return ("generated photo name")
+
 
 
 if __name__ == "__main__":

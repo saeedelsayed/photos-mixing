@@ -72,7 +72,6 @@ hiddenUpload.onchange = async () => {
   var image_workspace = document.querySelector(`.image-${index + 1}`);
 
   var file = hiddenUpload.files[0];
-  // console.log(file);
 
   var url = window.URL.createObjectURL(new Blob([file], { type: "image/jpg" }));
   image_workspace.src = url;
@@ -164,9 +163,11 @@ mergebtn.onclick = async function () {
         // document
         //   .querySelector(".merged-image-workspace")
         //   .insertAdjacentHTML(
-        //     "afterbegin",
-        //     `<img src="/photos/patients1.png" alt="">`
+        //     "beforebegin",
+        //     `<img src="{{ url_for('static', filename = 'image.png') }}" >`
         //   );
+
+  
       },
     });
   }, 500);
