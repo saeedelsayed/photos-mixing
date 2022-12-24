@@ -40,7 +40,6 @@ def fun():
     sImageCropped=request.values['sImageCropped']
     print(fImage,fImageCropped,sImage,sImageCropped)
     compined_image=fn.merge("upLoads/"+fImage,"upLoads/"+fImageCropped,"upLoads/"+sImage,"upLoads/"+sImageCropped)
-    print('diaaaaaaaaaaaaa')
     plt.imsave("upLoads/result.png", compined_image)
     # im = Image.fromarray(compined_image)
     # im.save('result.png')
