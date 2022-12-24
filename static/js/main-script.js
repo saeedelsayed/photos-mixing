@@ -73,7 +73,7 @@ hiddenUpload.onchange = async () => {
 
   var file = hiddenUpload.files[0];
   // console.log(file);
-  
+
   var url = window.URL.createObjectURL(new Blob([file], { type: "image/jpg" }));
   image_workspace.src = url;
   image_workspaceSpan[index].style.display = "none";
@@ -161,12 +161,12 @@ mergebtn.onclick = async function () {
       async: true,
       success: function (res) {
         console.log(res);
-        document
-          .querySelector(".merged-image-workspace")
-          .insertAdjacentHTML(
-            "afterbegin",
-            `<img src="/photos/patients1.png" alt="">`
-          );
+        // document
+        //   .querySelector(".merged-image-workspace")
+        //   .insertAdjacentHTML(
+        //     "afterbegin",
+        //     `<img src="/photos/patients1.png" alt="">`
+        //   );
       },
     });
   }, 500);
