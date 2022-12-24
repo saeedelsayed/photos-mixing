@@ -24,4 +24,4 @@ def fun():
 
 
 if __name__ == "__main__":
-    skills_app.run()
+    skills_app.run(port=5000)

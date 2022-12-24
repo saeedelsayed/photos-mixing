@@ -72,6 +72,8 @@ hiddenUpload.onchange = async () => {
   var image_workspace = document.querySelector(`.image-${index + 1}`);
 
   var file = hiddenUpload.files[0];
+  // console.log(file);
+  
   var url = window.URL.createObjectURL(new Blob([file], { type: "image/jpg" }));
   image_workspace.src = url;
   image_workspaceSpan[index].style.display = "none";
@@ -89,7 +91,6 @@ hiddenUpload.onchange = async () => {
       zoom[index * 2].onclick = () => cropper.zoom(0.1);
       zoom[index * 2 + 1].onclick = () => cropper.zoom(-0.1);
 
-      
       // flip image
       var flipX = -1;
       var flipY = -1;
@@ -101,7 +102,6 @@ hiddenUpload.onchange = async () => {
         cropper.scale(1, flipY);
         flipY = -flipY;
       };
-
 
       // set aspect ratio
       aspectRatio[0 + 5 * index].onclick = () =>
@@ -144,7 +144,8 @@ hiddenUpload.onchange = async () => {
   var cropper = await new Cropper(image_workspace, options);
 };
 
-document.querySelector(".merge-btn").onclick = async function () {
+const mergebtn = document.querySelector(".merge-btn");
+mergebtn.onclick = async function () {
   actionButton[1].click();
   actionButton[3].click();
   setTimeout(() => {
@@ -160,6 +161,12 @@ document.querySelector(".merge-btn").onclick = async function () {
       async: true,
       success: function (res) {
         console.log(res);
+        document
+          .querySelector(".merged-image-workspace")
+          .insertAdjacentHTML(
+            "afterbegin",
+            `<img src="/photos/patients1.png" alt="">`
+          );
       },
     });
   }, 500);

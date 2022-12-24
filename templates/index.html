@@ -6,8 +6,6 @@
     <title>Image Cropper</title>
     <link rel="stylesheet" href="/static/styles/main-style.css" />
     <link rel="stylesheet" href="/static/styles/cropper.css" />
-    <!-- for demo only -->
-    <script src="../../../assets/js/script.demo.v0.06.js" defer></script>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script
       async
@@ -265,8 +263,8 @@
       </div>
       <div class="merged-image-container">
         <div class="merged-image-workspace">
-          <img src="" alt="" />
-          <span>merged image will appear here</span>
+          <img src="/blood1.png" alt="" />
+          <!-- <span>merged image will appear here</span> -->
         </div>
       </div>
     </div>
@@ -275,6 +273,6 @@
 
     <script src="/static/js/cropper.js"></script>
     <script src="/static/js/main-script.js"></script>
-    <script src="{{url_for('static', filename = 'js/jquery-3.6.1.min.js')}}"></script>
+    <script src="/static/js/jquery-3.6.1.min.js"></script>
   </body>
 </html>
