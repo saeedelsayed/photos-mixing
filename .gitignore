@@ -2,5 +2,9 @@
 photos
 *.jpg
 !spec/*.jpg
+*.png
+!spec/*.png
+*.jpeg
+!spec/*.jpeg
+__pycache__
 
-blood1.png

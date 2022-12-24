@@ -127,7 +127,8 @@ hiddenUpload.onchange = async () => {
           var downloadUrl = window.URL.createObjectURL(blob);
           var a = document.createElement("a");
           a.href = downloadUrl;
-          const fileName = `${file.name}-cropped`;
+          var Modified_name=`Modified_`+file.name;
+          const fileName = Modified_name;
           a.download = fileName; // output image name
           a.click();
           actionButton[1].innerText = "Download";
