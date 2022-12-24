@@ -7,3 +7,4 @@ blood1.png
 !spec/*.png
 *.jpeg
 !spec/*.jpeg
+__pycache__

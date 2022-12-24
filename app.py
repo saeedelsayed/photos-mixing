@@ -1,24 +1,13 @@
 
+
 from flask import Flask, render_template, request
 import os;
 from PIL import Image
 import glob
 import matplotlib.pyplot as plt
 import functions as fn
-skills_app = Flask(__name__)
+skills_app = Flask(__name__,static_url_path='')
 
-def images(imageName):
-    image_list = []
-    for filename in glob.glob("upLoads/"+imageName):
-      im=Image.open(filename)
-      image_list.append(im)
-      #print(filename)
-      print(image_list)
-      return image_list[0]
-      im = Image.fromarray(arrayfrommerge)
-      im.save('test.png')
-      matplotlib.pyplot.imsave(fname, arr)
-      return 1
 
      
     
@@ -43,7 +32,8 @@ def fun():
     plt.imsave("upLoads/result.png", compined_image)
     # im = Image.fromarray(compined_image)
     # im.save('result.png')
-    return ("result")
+    return ("result.png")
+
 
 if __name__ == "__main__":
     skills_app.run(port=5000)
