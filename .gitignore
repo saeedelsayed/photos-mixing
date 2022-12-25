@@ -1,5 +1,6 @@
 /.vscode
 photos
+
 *.jpg
 
 !spec/*.jpg
