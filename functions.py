@@ -1,5 +1,8 @@
 import cv2
 import numpy as np
+import matplotlib.pyplot as plt
+from pylab import *
+import matplotlib.cm as cm
 
 
 def match(image, crop):
@@ -42,7 +45,19 @@ def merge(first_image_path, first_crop_path, second_image_path, second_crop_path
     first_image_magnitude, first_image_phase = getPhaseMagnitude(first_image)
     second_image_magnitude, second_image_phase = getPhaseMagnitude(
         second_image)
+    # imshow(first_image_magnitude)
 
+    # fig = plt.figure()
+    # ax1 = fig.add_subplot(121)
+# Bilinear interpolation - this will look blurry
+    plt.imsave('static/magImage.png', np.real(np.fft.ifft2(np.multiply(
+        first_image_magnitude, 1))))
+    # plt.specgram(first_image_magnitude)
+    plt.imsave('static/phaseImg.png', np.real(np.fft.ifft2(np.multiply(
+        1, np.exp(1j*second_image_phase)))))
+    # plt.show()
+    # plt.savefig(first_image_magnitude)
+    # plt.savefig(second_image_phase)
     combined = np.real(np.fft.ifft2(np.multiply(
         first_image_magnitude, np.exp(1j*second_image_phase))))
     return combined

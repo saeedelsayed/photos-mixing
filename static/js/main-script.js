@@ -171,7 +171,7 @@ mergebtn.onclick = async function () {
         ).innerHTML = `<img src="./${res}" class='gen-image' >`;
       },
     });
-  }, 800);
+  }, 400);
   // BUG  should send the photos or their name
 };
 // document.body.onmousedown = (e) => console.log(e);

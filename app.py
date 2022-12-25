@@ -29,10 +29,11 @@ def fun():
     print(fImage, fImageCropped, sImage, sImageCropped)
     compined_image = fn.merge("uploads/"+fImage, "uploads/" +
                               fImageCropped, "uploads/"+sImage, "uploads/"+sImageCropped)
+    print('combined')
     plt.imsave(f"static/result{c}.png", compined_image, cmap='gray')
 
     return (f"result{c}.png")
 
 
 if __name__ == "__main__":
-    skills_app.run(port=1919)
+    skills_app.run(port=2020)
