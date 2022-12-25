@@ -19,17 +19,20 @@ def home():
 @skills_app.route('/merge', methods=['POST'])
 def fun():
     # names of the images
+    print('saeed')
     fImage = request.values['fImage']
+    # print(fImage)
     fImageCropped = request.values['fImageCropped']
     sImage = request.values['sImage']
     sImageCropped = request.values['sImageCropped']
+    c = request.values['counter']
     print(fImage, fImageCropped, sImage, sImageCropped)
-    compined_image = fn.merge("upLoads/"+fImage, "upLoads/" +
-                              fImageCropped, "upLoads/"+sImage, "upLoads/"+sImageCropped)
-    plt.imsave("static/result.png", compined_image, cmap='gray')
+    compined_image = fn.merge("uploads/"+fImage, "uploads/" +
+                              fImageCropped, "uploads/"+sImage, "uploads/"+sImageCropped)
+    plt.imsave(f"static/result{c}.png", compined_image, cmap='gray')
 
-    return ("result.png")
+    return (f"result{c}.png")
 
 
 if __name__ == "__main__":
-    skills_app.run(port=5000)
+    skills_app.run(port=1919)

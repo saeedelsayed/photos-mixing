@@ -51,7 +51,7 @@ side_controls_shifter[3].onclick = () => {
   side_controls_shifter[3].classList.add("active");
   side_controls_shifter[2].classList.remove("active");
 };
-
+let thirdCounter=0;
 // upload image
 let index = 0;
 actionButton[0].onclick = () => {
@@ -127,8 +127,7 @@ hiddenUpload.onchange = async () => {
           var downloadUrl = window.URL.createObjectURL(blob);
           var a = document.createElement("a");
           a.href = downloadUrl;
-          var Modified_name=`Modified_`+file.name;
-          const fileName = Modified_name;
+          const fileName = `cropped${thirdCounter}${file.name}`;
           a.download = fileName; // output image name
           a.click();
           actionButton[1].innerText = "Download";
@@ -145,10 +144,14 @@ hiddenUpload.onchange = async () => {
 };
 
 const mergebtn = document.querySelector(".merge-btn");
+let imagesCounter = 0;
 mergebtn.onclick = async function () {
   actionButton[1].click();
   actionButton[3].click();
+
   setTimeout(() => {
+    console.log(filesArray);
+    thirdCounter++;
     $.ajax({
       type: "POST",
       url: "/merge",
@@ -157,15 +160,22 @@ mergebtn.onclick = async function () {
         fImageCropped: filesArray[1],
         sImage: filesArray[2],
         sImageCropped: filesArray[3],
+        counter: imagesCounter,
       },
       async: true,
       success: function (res) {
         console.log(res);
-        
-
-  
+        imagesCounter++;
+        document.querySelector(
+          ".merged-image-workspace"
+        ).innerHTML = `<img src="./${res}" class='gen-image' >`;
       },
     });
-  }, 500);
+  }, 800);
   // BUG  should send the photos or their name
 };
+// document.body.onmousedown = (e) => console.log(e);
+// document.body.onmouseup = (e) => console.log(e);
+
+// document.querySelector(".image-1").onmousedown = () =>
+//   console.log("diaa");
