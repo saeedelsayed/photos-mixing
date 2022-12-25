@@ -168,7 +168,9 @@ mergebtn.onclick = async function () {
         imagesCounter++;
         document.querySelector(
           ".merged-image-workspace"
-        ).innerHTML = `<img src="./${res}" class='gen-image' >`;
+        ).innerHTML = `<img src="./${res[0]}" class='gen-image' >`;
+        document.querySelector('.phase-image-workspace').innerHTML=`<img src="./${res[1]}"height=253px width=450px>`
+        document.querySelector('.ampiltude-image-workspace').innerHTML=`<img src="./${res[2]}" height=253px width=450px>`
       },
     });
   }, 400);

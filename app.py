@@ -25,14 +25,14 @@ def fun():
     fImageCropped = request.values['fImageCropped']
     sImage = request.values['sImage']
     sImageCropped = request.values['sImageCropped']
-    c = request.values['counter']
+    counter = request.values['counter']
     print(fImage, fImageCropped, sImage, sImageCropped)
     compined_image = fn.merge("uploads/"+fImage, "uploads/" +
-                              fImageCropped, "uploads/"+sImage, "uploads/"+sImageCropped)
+                              fImageCropped, "uploads/"+sImage, "uploads/"+sImageCropped,counter)
     print('combined')
-    plt.imsave(f"static/result{c}.png", compined_image, cmap='gray')
+    plt.imsave(f"static/result{counter}.png", compined_image, cmap='gray')
 
-    return (f"result{c}.png")
+    return ([f"result{counter}.png",f'magImage{counter}.png',f'phaseImg{counter}.png'])
 
 
 if __name__ == "__main__":

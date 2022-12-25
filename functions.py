@@ -31,13 +31,12 @@ def getPhaseMagnitude(image):
     return magnitude_spectrum, phase_spectrum
 
 
-def merge(first_image_path, first_crop_path, second_image_path, second_crop_path):
+def merge(first_image_path, first_crop_path, second_image_path, second_crop_path,counter):
     first_image = preprocessing(first_image_path, first_crop_path)
     second_image = preprocessing(second_image_path, second_crop_path)
     first_original = cv2.imread(first_image_path, cv2.IMREAD_GRAYSCALE)
     second_original = cv2.imread(second_image_path, cv2.IMREAD_GRAYSCALE)
-    # first_image = cv2.resize(first_image,first_image.shape)
-    # second_image = cv2.resize(second_image,second_image.shape)
+ 
     print(first_image.shape)
     print(first_original.shape)
     print(second_image.shape)
@@ -47,17 +46,12 @@ def merge(first_image_path, first_crop_path, second_image_path, second_crop_path
         second_image)
     # imshow(first_image_magnitude)
 
-    # fig = plt.figure()
-    # ax1 = fig.add_subplot(121)
-# Bilinear interpolation - this will look blurry
-    plt.imsave('static/magImage.png', np.real(np.fft.ifft2(np.multiply(
-        first_image_magnitude, 1))))
-    # plt.specgram(first_image_magnitude)
-    plt.imsave('static/phaseImg.png', np.real(np.fft.ifft2(np.multiply(
-        1, np.exp(1j*second_image_phase)))))
-    # plt.show()
-    # plt.savefig(first_image_magnitude)
-    # plt.savefig(second_image_phase)
+
+    plt.imsave(f'static/magImage{counter}.png', np.real(np.fft.ifft2(np.multiply(
+        first_image_magnitude, 1))),cmap='gray')
+
+    plt.imsave(f'static/phaseImg{counter}.png', np.real(np.fft.ifft2(np.multiply(
+        1, np.exp(1j*second_image_phase)))),cmap='gray')
     combined = np.real(np.fft.ifft2(np.multiply(
         first_image_magnitude, np.exp(1j*second_image_phase))))
     return combined
