@@ -161,12 +161,7 @@ mergebtn.onclick = async function () {
       async: true,
       success: function (res) {
         console.log(res);
-        // document
-        //   .querySelector(".merged-image-workspace")
-        //   .insertAdjacentHTML(
-        //     "beforebegin",
-        //     `<img src="{{ url_for('static', filename = 'image.png') }}" >`
-        //   );
+        
 
   
       },
