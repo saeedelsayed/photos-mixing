@@ -1,19 +1,20 @@
-import functions
 import matplotlib.pyplot as plt
+import cv2
 import numpy as np
+import functions
 
-first_mag, first_phase = functions.preprocessing('cat.jpeg', 'cat_crop.jpeg')
+f_cat = functions.fourier('cat.jpeg')
 
-second_mag, second_phase = functions.preprocessing(
-    'door.jpeg', 'door_crop.jpeg')
+plt.imsave('mag.jpg',np.log(functions.getMagnitude(f_cat)),cmap='gray')
 
-combined = np.real(np.fft.ifft2(
-    np.multiply(second_mag, np.exp(1j*first_phase))))
+f_door = functions.fourier('door.jpeg')
+
+plt.imsave('phase.jpg',functions.getPhase(f_door),cmap='gray')
 
 
-plt.imshow(np.log(second_mag), cmap='gray')
-plt.imshow(first_phase, cmap='gray')
+combined = functions.merge(functions.getMagnitude(f_cat),'mag.jpg','mag_crop.jpg',functions.getPhase(f_door),'phase.jpg','phase_crop.jpg')
 
-#plt.imshow(combined, cmap='gray')
-
+plt.imshow(combined,cmap='gray')
 plt.show()
+
+
