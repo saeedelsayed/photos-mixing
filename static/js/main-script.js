@@ -127,7 +127,7 @@ hiddenUpload.onchange = async () => {
           var downloadUrl = window.URL.createObjectURL(blob);
           var a = document.createElement("a");
           a.href = downloadUrl;
-          const fileName = `cropped${thirdCounter}${file.name}`;
+          const fileName = `Cropped${thirdCounter}${file.name}`;
           a.download = fileName; // output image name
           a.click();
           actionButton[1].innerText = "Download";
@@ -174,10 +174,4 @@ mergebtn.onclick = async function () {
       },
     });
   }, 400);
-  // BUG  should send the photos or their name
 };
-// document.body.onmousedown = (e) => console.log(e);
-// document.body.onmouseup = (e) => console.log(e);
-
-// document.querySelector(".image-1").onmousedown = () =>
-//   console.log("diaa");
