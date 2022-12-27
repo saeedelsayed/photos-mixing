@@ -6,6 +6,7 @@ from PIL import Image
 import glob
 import matplotlib.pyplot as plt
 import functions as fn
+import numpy as np
 
 skills_app = Flask(__name__, static_url_path='')
 
@@ -30,7 +31,7 @@ def generate():
         mag_img = fn.getMagnitude(f)
         magPath = f"static/magImage{counter}.png"
         print(magPath)
-        plt.imsave(magPath, mag_img, cmap='gray')
+        plt.imsave(magPath, np.log(mag_img), cmap='gray')
         return f"magImage{counter}.png"
     elif required == '1':
         f = fn.fourier("uploads/"+image)
