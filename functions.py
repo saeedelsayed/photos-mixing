@@ -4,6 +4,7 @@ import cv2
 def fourier(image_path):
     image = cv2.imread(image_path,cv2.IMREAD_GRAYSCALE)
     f = np.fft.fft2(image)
+    f = np.fft.fftshift(f)
     return f
 
 def getMagnitude(f):
@@ -41,6 +42,6 @@ def merge(magnitude,img1_path,crop1_path,phase,img2_path,crop2_path):
     modified_magnitude = preprocessing(img1,crop1,magnitude,True)
     modified_phase = preprocessing(img2,crop2,phase,False)
 
-    combined = np.fft.ifft2(np.multiply(modified_magnitude,np.exp(1j*modified_phase)))
+    combined = np.fft.ifft2(np.fft.fftshift(np.multiply(modified_magnitude,np.exp(1j*modified_phase))))
     return np.real(combined)
 
