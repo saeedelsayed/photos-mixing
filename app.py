@@ -49,6 +49,11 @@ def fun():
     print('saeed')
     magImage = request.values['magnitude']
     phaseImage = request.values['phase']
+    print(magImage, phaseImage)
+    f = fn.fourier("uploads/"+magImage)
+    mag_img = fn.getMagnitude(f)
+    f = fn.fourier("uploads/"+phaseImage)
+    phase_img = fn.getPhase(f)
     fImage = request.values['fImage']
     print(magImage, phaseImage)
     fImageCropped = request.values['fImageCropped']
@@ -56,12 +61,12 @@ def fun():
     sImageCropped = request.values['sImageCropped']
     counter = request.values['counter']
     print(fImage, fImageCropped, sImage, sImageCropped)
-    compined_image = fn.merge(magPath, "static/"+fImage, "uploads/" + fImageCropped, phasePath,
+    compined_image = fn.merge(mag_img, "static/"+fImage, "uploads/" + fImageCropped, phase_img,
                               "static/"+sImage, "uploads/"+sImageCropped)
     print('combined')
     plt.imsave(f"static/result{counter}.png", compined_image, cmap='gray')
     # i just need the generated photo name and save it on static folder
-    return ([f"result{counter}.png", f'magImage{counter}.png', f'phaseImg{counter}.png'])
+    return f'result{counter}.png'
 
 
 if __name__ == "__main__":
