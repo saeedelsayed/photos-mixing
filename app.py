@@ -56,8 +56,8 @@ def fun():
     sImageCropped = request.values['sImageCropped']
     counter = request.values['counter']
     print(fImage, fImageCropped, sImage, sImageCropped)
-    compined_image = fn.merge(magPath, "uploads/"+fImage, "uploads/" + fImageCropped, phasePath,
-                              "uploads/"+sImage, "uploads/"+sImageCropped)
+    compined_image = fn.merge(magPath, "static/"+fImage, "uploads/" + fImageCropped, phasePath,
+                              "static/"+sImage, "uploads/"+sImageCropped)
     print('combined')
     plt.imsave(f"static/result{counter}.png", compined_image, cmap='gray')
     # i just need the generated photo name and save it on static folder
