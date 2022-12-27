@@ -16,23 +16,34 @@ def home():
 # route for testing axios
 
 
+@skills_app.route('/generate', methods=['POST'])
+def generate():
+    image = request.values['imgName']
+    # zero means i need magnitude image, one means i need phase image
+    required = request.values['required']
+    counter = request.values['counter']
+    print(image, required)
+    # return the photo name and save it on the static folder ( don't forget to use the counter with the name)
+    return "photoname"
+
+
 @skills_app.route('/merge', methods=['POST'])
 def fun():
     # names of the images
     print('saeed')
     fImage = request.values['fImage']
-    # print(fImage)
+    print(fImage)
     fImageCropped = request.values['fImageCropped']
     sImage = request.values['sImage']
     sImageCropped = request.values['sImageCropped']
     counter = request.values['counter']
     print(fImage, fImageCropped, sImage, sImageCropped)
     compined_image = fn.merge("uploads/"+fImage, "uploads/" +
-                              fImageCropped, "uploads/"+sImage, "uploads/"+sImageCropped,counter)
+                              fImageCropped, "uploads/"+sImage, "uploads/"+sImageCropped, counter)
     print('combined')
     plt.imsave(f"static/result{counter}.png", compined_image, cmap='gray')
-
-    return ([f"result{counter}.png",f'magImage{counter}.png',f'phaseImg{counter}.png'])
+    # i just need the generated photo name and save it on static folder
+    return ([f"result{counter}.png", f'magImage{counter}.png', f'phaseImg{counter}.png'])
 
 
 if __name__ == "__main__":
