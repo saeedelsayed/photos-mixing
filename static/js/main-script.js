@@ -91,7 +91,7 @@ hiddenUpload.onchange = async () => {
       var image_workspace = document.querySelector(`.image-${index + 1}`);
 
       // BUG here should add the image photo from the response
-      image_workspace.src = "./phaseImg0.png";
+      image_workspace.src = `./${res}`;
       image_workspaceSpan[index].style.display = "none";
       preview_containerSpan[index].style.display = "none";
 
