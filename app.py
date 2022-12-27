@@ -6,8 +6,8 @@ from PIL import Image
 import glob
 import matplotlib.pyplot as plt
 import functions as fn
-skills_app = Flask(__name__, static_url_path='')
 
+skills_app = Flask(__name__, static_url_path='')
 
 @skills_app.route("/")
 def home():
@@ -22,15 +22,31 @@ def generate():
     # zero means i need magnitude image, one means i need phase image
     required = request.values['required']
     counter = request.values['counter']
+    global magPath
+    global phasePath
+    if required=='0':
+        f=fn.fourier("uploads/"+image)
+        mag_img=fn.getMagnitude(f)
+        magPath =f"static/magImage{counter}.png"
+        print(magPath)
+        plt.imsave(magPath, mag_img, cmap='gray')
+        return "magImage{counter}.png"
+    elif required=='1':
+        f=fn.fourier("uploads/"+image)
+        phase_img=fn.getPhase(f)
+        phasePath=f"static/phaseImg{counter}.png"
+        print(phasePath)
+        plt.imsave(phasePath, phase_img, cmap='gray')
+        return "phaseImg{counter}.png"
     print(image, required)
     # return the photo name and save it on the static folder ( don't forget to use the counter with the name)
-    return "photoname"
-
+    
 
 @skills_app.route('/merge', methods=['POST'])
 def fun():
     # names of the images
     print('saeed')
+    print(magPath,phasePath)
     fImage = request.values['fImage']
     print(fImage)
     fImageCropped = request.values['fImageCropped']
@@ -38,8 +54,8 @@ def fun():
     sImageCropped = request.values['sImageCropped']
     counter = request.values['counter']
     print(fImage, fImageCropped, sImage, sImageCropped)
-    compined_image = fn.merge("uploads/"+fImage, "uploads/" +
-                              fImageCropped, "uploads/"+sImage, "uploads/"+sImageCropped, counter)
+    compined_image = fn.merge(magPath,"uploads/"+fImage, "uploads/" + fImageCropped,phasePath,
+                              "uploads/"+sImage, "uploads/"+sImageCropped)
     print('combined')
     plt.imsave(f"static/result{counter}.png", compined_image, cmap='gray')
     # i just need the generated photo name and save it on static folder

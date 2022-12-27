@@ -77,7 +77,7 @@ hiddenUpload.onchange = async () => {
   // sending request for the phase and magnitude
   $.ajax({
     type: "POST",
-    url: "/generate",
+    url: "/generate", 
     data: {
       imgName: file.name,
       required: index,
