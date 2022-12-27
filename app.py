@@ -49,6 +49,7 @@ def fun():
     # names of the images
     print('saeed')
     magImage = request.values['magnitude']
+    print(magImage)
     phaseImage = request.values['phase']
     print(magImage, phaseImage)
     f = fn.fourier("uploads/"+magImage)
@@ -71,4 +72,4 @@ def fun():
 
 
 if __name__ == "__main__":
-    skills_app.run(port=3000)
+    skills_app.run(port=4000)

@@ -75,6 +75,7 @@ hiddenUpload.onchange = async () => {
   var url = window.URL.createObjectURL(new Blob([file], { type: "image/jpg" }));
   mag_workspace.src = url;
   // sending request for the phase and magnitude
+  console.log(file.name,index,imagesCounter);
   $.ajax({
     type: "POST",
     url: "/generate", 
@@ -174,7 +175,7 @@ mergebtn.onclick = async function () {
   setTimeout(() => {
     index = 1;
     actionButton[3].click();
-  }, 100);
+  }, 300);
 
   setTimeout(() => {
     console.log(filesArray);
@@ -200,5 +201,5 @@ mergebtn.onclick = async function () {
         ).innerHTML = `<img src="./${res}" class='gen-image' >`;
       },
     });
-  }, 400);
+  }, 600);
 };
