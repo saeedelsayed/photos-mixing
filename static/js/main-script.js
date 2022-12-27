@@ -62,7 +62,7 @@ actionButton[2].onclick = function () {
   index = 1;
   hiddenUpload.click();
 };
-const filesArray = new Array(4);
+const filesArray = new Array(6);
 let c = 0;
 hiddenUpload.onchange = async () => {
   // apdate on new file selected issue removed here
@@ -91,6 +91,7 @@ hiddenUpload.onchange = async () => {
       var image_workspace = document.querySelector(`.image-${index + 1}`);
 
       // BUG here should add the image photo from the response
+      console.log(res);
       image_workspace.src = `./${res}`;
       image_workspaceSpan[index].style.display = "none";
       preview_containerSpan[index].style.display = "none";
@@ -144,14 +145,16 @@ hiddenUpload.onchange = async () => {
               var downloadUrl = window.URL.createObjectURL(blob);
               var a = document.createElement("a");
               a.href = downloadUrl;
-              const fileName = `Cropped${thirdCounter}${file.name}`;
+              const fileName = `Cropped${thirdCounter}${res}`;
               a.download = fileName; // output image name
               a.click();
               actionButton[1].innerText = "Download";
               console.log(index);
-              filesArray[c + index * 2] = file.name;
+              filesArray[c+index*3]=file.name;
               c++;
-              filesArray[c + index * 2] = fileName;
+              filesArray[c + index * 3] = res;
+              c++;
+              filesArray[c + index * 3] = fileName;
               c = 0;
             });
           };
@@ -180,10 +183,12 @@ mergebtn.onclick = async function () {
       type: "POST",
       url: "/merge",
       data: {
-        fImage: filesArray[0],
-        fImageCropped: filesArray[1],
-        sImage: filesArray[2],
-        sImageCropped: filesArray[3],
+        magnitude:filesArray[0],
+        fImage: filesArray[1],
+        fImageCropped: filesArray[2],
+        phase:filesArray[3],
+        sImage: filesArray[4],
+        sImageCropped: filesArray[5],
         counter: imagesCounter,
       },
       async: true,
