@@ -1,47 +1,55 @@
 import numpy as np
 import cv2
+import matplotlib.pyplot as plt
 
-def fourier(image_path):
-    image = cv2.imread(image_path,cv2.IMREAD_GRAYSCALE)
-    f = np.fft.fft2(image)
-    f = np.fft.fftshift(f)
-    return f
+class Manager:
+    def __init__(self):
+        print("Manager Constructor")
+        
+    def coordinate(self,image, crop):
+        result = cv2.matchTemplate(image, crop, cv2.TM_SQDIFF_NORMED)
+        mn, _, mnLoc, _ = cv2.minMaxLoc(result)
+        MPx, MPy = mnLoc
+        return MPx, MPy
 
-def getMagnitude(f):
-    return np.abs(f)
+    def preprocessing(self,image,crop,matrix,flag):
+        MPx , MPy = self.coordinate(image,crop)
 
-def getPhase(f):
-    return np.angle(f)
+        y ,x = crop.shape
+        result = np.ones(image.shape)
+        if(flag==False):
+            result = np.zeros(image.shape)
 
-def match(image, crop):
-    result = cv2.matchTemplate(image, crop, cv2.TM_SQDIFF_NORMED)
-    mn, _, mnLoc, _ = cv2.minMaxLoc(result)
-    MPx, MPy = mnLoc
-    return MPx, MPy
-
-def preprocessing(image,crop,matrix,flag):
-    MPx , MPy = match(image,crop)
-
-    y ,x = crop.shape
-    result = np.ones(image.shape)
-
-    if(flag==False):
-        result = np.zeros(image.shape)
-
-    result[MPy:MPy+y,MPx:MPx+x] = matrix[MPy:MPy+y,MPx:MPx+x]
-    return result
+        result[MPy:MPy+y,MPx:MPx+x] = matrix[MPy:MPy+y,MPx:MPx+x]
+        return result
 
 
-def merge(magnitude,img1_path,crop1_path,phase,img2_path,crop2_path):
-    img1 = cv2.imread(img1_path,cv2.IMREAD_GRAYSCALE)
-    crop1 = cv2.imread(crop1_path,cv2.IMREAD_GRAYSCALE)
+    def merge(self,magnitude,img1,crop1,phase,img2,crop2):
+        modified_magnitude = self.preprocessing(img1,crop1,magnitude,True)
+        modified_phase = self.preprocessing(img2,crop2,phase,False)
 
-    img2 = cv2.imread(img2_path,cv2.IMREAD_GRAYSCALE)
-    crop2= cv2.imread(crop2_path,cv2.IMREAD_GRAYSCALE)
+        combined = np.fft.ifft2(np.fft.fftshift(np.multiply(modified_magnitude,np.exp(1j*modified_phase))))
+        return np.real(combined)
 
-    modified_magnitude = preprocessing(img1,crop1,magnitude,True)
-    modified_phase = preprocessing(img2,crop2,phase,False)
+class Image:
+    def __init__(self,  image_path):
+        self.image = cv2.imread(image_path,cv2.IMREAD_GRAYSCALE)
+        self.fourier_transform = self.fourier()
 
-    combined = np.fft.ifft2(np.fft.fftshift(np.multiply(modified_magnitude,np.exp(1j*modified_phase))))
-    return np.real(combined)
+    def fourier(self):
+        f = np.fft.fft2(self.image)
+        f = np.fft.fftshift(f)
+        return f
 
+    def getMagnitude(self):
+        return np.abs(self.fourier_transform)
+
+    def getPhase(self):
+        return np.angle(self.fourier_transform)
+
+    @classmethod
+    def save(cls,path, combined_image):
+        plt.imsave(path, combined_image, cmap='gray')
+
+
+    
