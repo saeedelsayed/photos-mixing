@@ -170,7 +170,7 @@ hiddenUpload.onchange = async () => {
 
 const mergebtn = document.querySelector(".merge-btn");
 let imagesCounter = 0;
-mergebtn.onclick = async function () {
+mergebtn.onclick = async function () {  
   index = 0;
   actionButton[1].click();
   setTimeout(() => {
@@ -185,10 +185,10 @@ mergebtn.onclick = async function () {
       type: "POST",
       url: "/merge",
       data: {
-        magnitude:filesArray[0],
+        firstOriginal:filesArray[0],
         fImage: filesArray[1],
         fImageCropped: filesArray[2],
-        phase:filesArray[3],
+        secondOriginal:filesArray[3],
         sImage: filesArray[4],
         sImageCropped: filesArray[5],
         counter: imagesCounter,

@@ -5,8 +5,10 @@ import os
 from PIL import Image
 import glob
 import matplotlib.pyplot as plt
-import functions as fn
+
 import numpy as np
+from functions import Manager,Image
+
 
 skills_app = Flask(__name__, static_url_path='')
 
@@ -24,49 +26,47 @@ def generate():
     # zero means i need magnitude image, one means i need phase image
     required = request.values['required']
     counter = request.values['counter']
-    global magPath
-    global phasePath
     if required == '0':
-        f = fn.fourier("uploads/"+image)
-        mag_img = fn.getMagnitude(f)
+        first_original=Image("uploads/"+image)
+        magnitude = first_original.getMagnitude()
         magPath = f"static/magImage{counter}.png"
-        print(magPath)
-        plt.imsave(magPath, np.log(mag_img), cmap='gray')
+        Image.save(magPath,np.log(magnitude))
         return f"magImage{counter}.png"
     elif required == '1':
-        f = fn.fourier("uploads/"+image)
-        phase_img = fn.getPhase(f)
+        second_original=Image("uploads/"+image)
+        phase = second_original.getPhase()
         phasePath = f"static/phaseImg{counter}.png"
-        print(phasePath)
-        plt.imsave(phasePath, phase_img, cmap='gray')
+        Image.save(phasePath,phase)
         return f"phaseImg{counter}.png"
-    print(image, required)
     # return the photo name and save it on the static folder ( don't forget to use the counter with the name)
 
 
 @skills_app.route('/merge', methods=['POST'])
 def fun():
     # names of the images
-    print('saeed')
-    magImage = request.values['magnitude']
-    print(magImage)
-    phaseImage = request.values['phase']
-    print(magImage, phaseImage)
-    f = fn.fourier("uploads/"+magImage)
-    mag_img = fn.getMagnitude(f)
-    f = fn.fourier("uploads/"+phaseImage)
-    phase_img = fn.getPhase(f)
+    first_original = request.values['firstOriginal']
+    second_original = request.values['secondOriginal']
     fImage = request.values['fImage']
-    print(magImage, phaseImage)
     fImageCropped = request.values['fImageCropped']
     sImage = request.values['sImage']
     sImageCropped = request.values['sImageCropped']
     counter = request.values['counter']
-    print(fImage, fImageCropped, sImage, sImageCropped)
-    compined_image = fn.merge(mag_img, "static/"+fImage, "uploads/" + fImageCropped, phase_img,
-                              "static/"+sImage, "uploads/"+sImageCropped)
-    print('combined')
-    plt.imsave(f"static/result{counter}.png", compined_image, cmap='gray')
+
+    f_original = Image("uploads/"+first_original)
+    f_magnitude = f_original.getMagnitude()
+
+    s_original=Image("uploads/"+second_original)
+    s_phase = s_original.getPhase()
+
+    f_Image = Image("static/"+fImage)
+    f_ImageCropped = Image("uploads/"+fImageCropped)
+    s_Image = Image("static/"+sImage)
+    s_ImageCropped = Image("uploads/"+sImageCropped)
+    manager = Manager() 
+    combined_image=manager.merge(f_magnitude, f_Image.image, f_ImageCropped.image, s_phase,
+                              s_Image.image, s_ImageCropped.image)
+
+    Image.save(f"static/result{counter}.png",combined_image)
     # i just need the generated photo name and save it on static folder
     return f'result{counter}.png'
 
