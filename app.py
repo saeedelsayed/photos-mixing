@@ -33,7 +33,7 @@ def generate():
         Image.save(magPath,np.log(magnitude))
         return f"magImage{counter}.png"
     elif required == '1':
-        second_original=Image("uploads/"+image)
+        second_original=Image("uploads/"+image) 
         phase = second_original.getPhase()
         phasePath = f"static/phaseImg{counter}.png"
         Image.save(phasePath,phase)
