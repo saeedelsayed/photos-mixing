@@ -12,21 +12,29 @@ class Manager:
         MPx, MPy = mnLoc
         return MPx, MPy
 
-    def preprocessing(self,image,crop,matrix,flag):
+    def preprocessing(self,image,crop,matrix,cropped_part,flag):
         MPx , MPy = self.coordinate(image,crop)
 
+        result = matrix
         y ,x = crop.shape
-        result = np.ones(image.shape)
-        if(flag==False):
-            result = np.zeros(image.shape)
 
-        result[MPy:MPy+y,MPx:MPx+x] = matrix[MPy:MPy+y,MPx:MPx+x]
+        if(cropped_part=='inner'):
+            result = np.ones(image.shape)
+            if(flag==False):
+                result = np.zeros(image.shape)
+
+            result[MPy:MPy+y,MPx:MPx+x] = matrix[MPy:MPy+y,MPx:MPx+x]
+        else:
+            result[MPy:MPy+y,MPx:MPx+x] = 1
+            if(flag==False):
+                result[MPy:MPy+y,MPx:MPx+x] = 0
+
         return result
 
 
-    def merge(self,magnitude,img1,crop1,phase,img2,crop2):
-        modified_magnitude = self.preprocessing(img1,crop1,magnitude,True)
-        modified_phase = self.preprocessing(img2,crop2,phase,False)
+    def merge(self,magnitude,img1,crop1,phase,img2,crop2,imgOneCroppingCase,imgTwoCroppingCase):
+        modified_magnitude = self.preprocessing(img1,crop1,magnitude,imgOneCroppingCase,True)
+        modified_phase = self.preprocessing(img2,crop2,phase,imgTwoCroppingCase,False)
 
         combined = np.fft.ifft2(np.fft.fftshift(np.multiply(modified_magnitude,np.exp(1j*modified_phase))))
         return np.real(combined)
