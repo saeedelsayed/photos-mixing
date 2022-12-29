@@ -13,6 +13,29 @@ var image_workspaceSpan = document.querySelectorAll(".image-workspace span");
 var preview_containerSpan = document.querySelectorAll(
   ".preview-container span"
 );
+console.log(actionButton);
+
+const cropbtns = document.querySelectorAll(".inner-outer");
+let imgOneCropping = "inner";
+let imgTwoCropping = "inner";
+actionButton[2].onclick = () => {
+  if (imgOneCropping === "inner") {
+    imgOneCropping = "outer";
+    actionButton[2].textContent = "Inner Crop";
+  } else {
+    imgOneCropping = "inner";
+    actionButton[2].textContent = "Outer Crop";
+  }
+};
+actionButton[5].onclick = () => {
+  if (imgTwoCropping === "inner") {
+    imgTwoCropping = "outer";
+    actionButton[5].textContent = "Inner Crop";
+  } else {
+    imgTwoCropping = "inner";
+    actionButton[5].textContent = "Outer Crop";
+  }
+};
 
 var zoom = document.querySelectorAll(".side-control-page-1 .zoom svg");
 // var rotate = document.querySelectorAll(".side-control-page-1 .rotate svg");
@@ -51,103 +74,130 @@ side_controls_shifter[3].onclick = () => {
   side_controls_shifter[3].classList.add("active");
   side_controls_shifter[2].classList.remove("active");
 };
-let thirdCounter=0;
+let thirdCounter = 0;
 // upload image
 let index = 0;
 actionButton[0].onclick = () => {
   index = 0;
   hiddenUpload.click();
 };
-actionButton[2].onclick = function () {
+actionButton[3].onclick = function () {
   index = 1;
   hiddenUpload.click();
 };
-const filesArray = new Array(4);
+const filesArray = new Array(6);
 let c = 0;
 hiddenUpload.onchange = async () => {
   // apdate on new file selected issue removed here
-  document.querySelectorAll(".image-workspace")[
-    index
-  ].innerHTML = `<img src="" class="image-${index + 1} alt="">`;
-  var image_workspace = document.querySelector(`.image-${index + 1}`);
-
+  console.log(document.querySelectorAll(".phase-image-workspace"), index);
+  document.querySelector(
+    `.phase-image-workspace-${index}`
+  ).innerHTML = `<img src="" class ="magnitude-img-${index}">`;
+  const mag_workspace = document.querySelector(`.magnitude-img-${index}`);
   var file = hiddenUpload.files[0];
-
   var url = window.URL.createObjectURL(new Blob([file], { type: "image/jpg" }));
-  image_workspace.src = url;
-  image_workspaceSpan[index].style.display = "none";
-  preview_containerSpan[index].style.display = "none";
-
-  var options = {
-    // dragMode: "move",
-    preview: `.img-preview-${index + 1}`,
-    viewMode: 2,
-    modal: false,
-    background: false,
-    ready: function () {
-      // zoom for image
-
-      zoom[index * 2].onclick = () => cropper.zoom(0.1);
-      zoom[index * 2 + 1].onclick = () => cropper.zoom(-0.1);
-
-      // flip image
-      var flipX = -1;
-      var flipY = -1;
-      flip[0 + index * 2].onclick = () => {
-        cropper.scale(flipX, 1);
-        flipX = -flipX;
-      };
-      flip[1 + index * 2].onclick = () => {
-        cropper.scale(1, flipY);
-        flipY = -flipY;
-      };
-
-      // set aspect ratio
-      aspectRatio[0 + 5 * index].onclick = () =>
-        cropper.setAspectRatio(1.7777777777777777);
-      aspectRatio[1 + 5 * index].onclick = () =>
-        cropper.setAspectRatio(1.3333333333333333);
-      aspectRatio[2 + 5 * index].onclick = () => cropper.setAspectRatio(1);
-      aspectRatio[3 + 5 * index].onclick = () =>
-        cropper.setAspectRatio(0.6666666666666666);
-      aspectRatio[4 + 5 * index].onclick = () => cropper.setAspectRatio(0); // free
-
-      // cropper control
-      controlCropper[0 + index * 2].onclick = () => cropper.clear();
-      controlCropper[1 + index * 2].onclick = () => cropper.crop();
-
-      // lock cropper
-      lockCropper[0 + index * 2].onclick = () => cropper.disable();
-      lockCropper[1 + index * 2].onclick = () => cropper.enable();
-
-      // download cropped image
-      actionButton[1 + index * 2].onclick = async () => {
-        actionButton[1].innerText = "...";
-        cropper.getCroppedCanvas().toBlob(async (blob) => {
-          var downloadUrl = window.URL.createObjectURL(blob);
-          var a = document.createElement("a");
-          a.href = downloadUrl;
-          const fileName = `Cropped${thirdCounter}${file.name}`;
-          a.download = fileName; // output image name
-          a.click();
-          actionButton[1].innerText = "Download";
-          filesArray[c % 4] = file.name;
-          c++;
-          filesArray[c % 4] = fileName;
-          c++;
-        });
-      };
+  mag_workspace.src = url;
+  // sending request for the phase and magnitude
+  console.log(file.name, index, imagesCounter);
+  $.ajax({
+    type: "POST",
+    url: "/generate",
+    data: {
+      imgName: file.name,
+      required: index,
+      counter: imagesCounter,
     },
-  };
+    async: true,
+    success: function (res) {
+      document.querySelectorAll(".image-workspace")[
+        index
+      ].innerHTML = `<img src="" class="image-${index + 1} alt="">`;
+      console.log(index);
+      var image_workspace = document.querySelector(`.image-${index + 1}`);
 
-  var cropper = await new Cropper(image_workspace, options);
+      // BUG here should add the image photo from the response
+      console.log(res);
+      image_workspace.src = `./${res}`;
+      image_workspaceSpan[index].style.display = "none";
+      preview_containerSpan[index].style.display = "none";
+
+      var options = {
+        // dragMode: "move",
+        preview: `.img-preview-${index + 1}`,
+        viewMode: 2,
+        modal: false,
+        background: false,
+        ready: function () {
+          // zoom for image
+
+          zoom[index * 2].onclick = () => cropper.zoom(0.1);
+          zoom[index * 2 + 1].onclick = () => cropper.zoom(-0.1);
+
+          // flip image
+          var flipX = -1;
+          var flipY = -1;
+          flip[0 + index * 2].onclick = () => {
+            cropper.scale(flipX, 1);
+            flipX = -flipX;
+          };
+          flip[1 + index * 2].onclick = () => {
+            cropper.scale(1, flipY);
+            flipY = -flipY;
+          };
+
+          // set aspect ratio
+          aspectRatio[0 + 5 * index].onclick = () =>
+            cropper.setAspectRatio(1.7777777777777777);
+          aspectRatio[1 + 5 * index].onclick = () =>
+            cropper.setAspectRatio(1.3333333333333333);
+          aspectRatio[2 + 5 * index].onclick = () => cropper.setAspectRatio(1);
+          aspectRatio[3 + 5 * index].onclick = () =>
+            cropper.setAspectRatio(0.6666666666666666);
+          aspectRatio[4 + 5 * index].onclick = () => cropper.setAspectRatio(0); // free
+
+          // cropper control
+          controlCropper[0 + index * 2].onclick = () => cropper.clear();
+          controlCropper[1 + index * 2].onclick = () => cropper.crop();
+
+          // lock cropper
+          lockCropper[0 + index * 2].onclick = () => cropper.disable();
+          lockCropper[1 + index * 2].onclick = () => cropper.enable();
+
+          // download cropped image
+          actionButton[1 + index * 3].onclick = async () => {
+            cropper.getCroppedCanvas().toBlob(async (blob) => {
+              var downloadUrl = window.URL.createObjectURL(blob);
+              var a = document.createElement("a");
+              a.href = downloadUrl;
+              const fileName = `Cropped${thirdCounter}${res}`;
+              a.download = fileName; // output image name
+              a.click();
+              console.log(index);
+              filesArray[c + index * 3] = file.name;
+              c++;
+              filesArray[c + index * 3] = res;
+              c++;
+              filesArray[c + index * 3] = fileName;
+              c = 0;
+            });
+          };
+        },
+      };
+
+      var cropper = new Cropper(image_workspace, options);
+    },
+  });
 };
 
 const mergebtn = document.querySelector(".merge-btn");
 let imagesCounter = 0;
 mergebtn.onclick = async function () {
+  index = 0;
   actionButton[1].click();
-  actionButton[3].click();
+  setTimeout(() => {
+    index = 1;
+    actionButton[4].click();
+  }, 300);
 
   setTimeout(() => {
     console.log(filesArray);
@@ -156,11 +206,15 @@ mergebtn.onclick = async function () {
       type: "POST",
       url: "/merge",
       data: {
-        fImage: filesArray[0],
-        fImageCropped: filesArray[1],
-        sImage: filesArray[2],
-        sImageCropped: filesArray[3],
+        firstOriginal: filesArray[0],
+        fImage: filesArray[1],
+        fImageCropped: filesArray[2],
+        imgOneCase: imgOneCropping,
+        secondOriginal: filesArray[3],
+        sImage: filesArray[4],
+        sImageCropped: filesArray[5],
         counter: imagesCounter,
+        imgTwoCase: imgTwoCropping,
       },
       async: true,
       success: function (res) {
@@ -168,10 +222,8 @@ mergebtn.onclick = async function () {
         imagesCounter++;
         document.querySelector(
           ".merged-image-workspace"
-        ).innerHTML = `<img src="./${res[0]}" class='gen-image' >`;
-        document.querySelector('.phase-image-workspace').innerHTML=`<img src="./${res[1]}"height=253px width=450px>`
-        document.querySelector('.ampiltude-image-workspace').innerHTML=`<img src="./${res[2]}" height=253px width=450px>`
+        ).innerHTML = `<img src="./${res}" class='gen-image' >`;
       },
     });
-  }, 400);
+  }, 600);
 };
