@@ -277,6 +277,24 @@ body{
     justify-content: center;
 }
 
+.inner-outer{
+    display: block;
+    width: 170px;
+    height: 35px;
+    margin: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+    background-color: rgba(255, 255, 255, 0.129);
+    color: white;
+    border-radius: 3px;
+    outline: none;
+    transition-duration: .2s;
+    font-family: 'Maven Pro', sans-serif;
+    cursor: pointer;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+
+}
 
 .amplitude-image-container{
     background-color: rgba(255, 255, 255, 0.229);

@@ -26,6 +26,7 @@ def generate():
     # zero means i need magnitude image, one means i need phase image
     required = request.values['required']
     counter = request.values['counter']
+    print(image)
     if required == '0':
         first_original=Image("uploads/"+image)
         magnitude = first_original.getMagnitude()
@@ -44,6 +45,8 @@ def generate():
 @skills_app.route('/merge', methods=['POST'])
 def fun():
     # names of the images
+    imgOneCroppingCase=request.values['imgOneCase']
+    imgTwoCroppingCase=request.values['imgTwoCase']
     first_original = request.values['firstOriginal']
     second_original = request.values['secondOriginal']
     fImage = request.values['fImage']
@@ -64,7 +67,7 @@ def fun():
     s_ImageCropped = Image("uploads/"+sImageCropped)
     manager = Manager() 
     combined_image=manager.merge(f_magnitude, f_Image.image, f_ImageCropped.image, s_phase,
-                              s_Image.image, s_ImageCropped.image)
+                              s_Image.image, s_ImageCropped.image,imgOneCroppingCase,imgTwoCroppingCase)
 
     Image.save(f"static/result{counter}.png",combined_image)
     # i just need the generated photo name and save it on static folder
