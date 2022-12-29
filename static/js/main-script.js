@@ -14,6 +14,28 @@ var preview_containerSpan = document.querySelectorAll(
   ".preview-container span"
 );
 
+const cropbtns = document.querySelectorAll(".inner-outer");
+let imgOneCropping = "inner";
+let imgTwoCropping = "inner";
+actionButton[2].onclick = () => {
+  if (imgOneCropping === "inner") {
+    imgOneCropping = "outer";
+    actionButton[2].textContent = "Inner Crop";
+  } else {
+    imgOneCropping = "inner";
+    actionButton[2].textContent = "Outer Crop";
+  }
+};
+actionButton[5].onclick = () => {
+  if (imgTwoCropping === "inner") {
+    imgTwoCropping = "outer";
+    actionButton[5].textContent = "Inner Crop";
+  } else {
+    imgTwoCropping = "inner";
+    actionButton[5].textContent = "Outer Crop";
+  }
+};
+
 var zoom = document.querySelectorAll(".side-control-page-1 .zoom svg");
 // var rotate = document.querySelectorAll(".side-control-page-1 .rotate svg");
 var flip = document.querySelectorAll(".side-control-page-1 .flip svg");
@@ -58,7 +80,7 @@ actionButton[0].onclick = () => {
   index = 0;
   hiddenUpload.click();
 };
-actionButton[2].onclick = function () {
+actionButton[3].onclick = function () {
   index = 1;
   hiddenUpload.click();
 };
@@ -75,10 +97,10 @@ hiddenUpload.onchange = async () => {
   var url = window.URL.createObjectURL(new Blob([file], { type: "image/jpg" }));
   mag_workspace.src = url;
   // sending request for the phase and magnitude
-  console.log(file.name,index,imagesCounter);
+  console.log(file.name, index, imagesCounter);
   $.ajax({
     type: "POST",
-    url: "/generate", 
+    url: "/generate",
     data: {
       imgName: file.name,
       required: index,
@@ -152,7 +174,7 @@ hiddenUpload.onchange = async () => {
               a.click();
               actionButton[1].innerText = "Download";
               console.log(index);
-              filesArray[c+index*3]=file.name;
+              filesArray[c + index * 3] = file.name;
               c++;
               filesArray[c + index * 3] = res;
               c++;
@@ -170,12 +192,12 @@ hiddenUpload.onchange = async () => {
 
 const mergebtn = document.querySelector(".merge-btn");
 let imagesCounter = 0;
-mergebtn.onclick = async function () {  
+mergebtn.onclick = async function () {
   index = 0;
   actionButton[1].click();
   setTimeout(() => {
     index = 1;
-    actionButton[3].click();
+    actionButton[4].click();
   }, 300);
 
   setTimeout(() => {
@@ -185,13 +207,15 @@ mergebtn.onclick = async function () {
       type: "POST",
       url: "/merge",
       data: {
-        firstOriginal:filesArray[0],
+        firstOriginal: filesArray[0],
         fImage: filesArray[1],
         fImageCropped: filesArray[2],
-        secondOriginal:filesArray[3],
+        imgOneCase: imgOneCropping,
+        secondOriginal: filesArray[3],
         sImage: filesArray[4],
         sImageCropped: filesArray[5],
         counter: imagesCounter,
+        imgTwoCase: imgtwoCropping,
       },
       async: true,
       success: function (res) {
