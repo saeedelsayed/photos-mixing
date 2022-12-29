@@ -89,6 +89,7 @@ hiddenUpload.onchange = async () => {
       document.querySelectorAll(".image-workspace")[
         index
       ].innerHTML = `<img src="" class="image-${index + 1} alt="">`;
+      console.log(index);
       var image_workspace = document.querySelector(`.image-${index + 1}`);
 
       // BUG here should add the image photo from the response
