@@ -13,6 +13,7 @@ var image_workspaceSpan = document.querySelectorAll(".image-workspace span");
 var preview_containerSpan = document.querySelectorAll(
   ".preview-container span"
 );
+console.log(actionButton);
 
 const cropbtns = document.querySelectorAll(".inner-outer");
 let imgOneCropping = "inner";
@@ -163,8 +164,7 @@ hiddenUpload.onchange = async () => {
           lockCropper[1 + index * 2].onclick = () => cropper.enable();
 
           // download cropped image
-          actionButton[1 + index * 2].onclick = async () => {
-            actionButton[1].innerText = "...";
+          actionButton[1 + index * 3].onclick = async () => {
             cropper.getCroppedCanvas().toBlob(async (blob) => {
               var downloadUrl = window.URL.createObjectURL(blob);
               var a = document.createElement("a");
@@ -172,7 +172,6 @@ hiddenUpload.onchange = async () => {
               const fileName = `Cropped${thirdCounter}${res}`;
               a.download = fileName; // output image name
               a.click();
-              actionButton[1].innerText = "Download";
               console.log(index);
               filesArray[c + index * 3] = file.name;
               c++;
@@ -215,7 +214,7 @@ mergebtn.onclick = async function () {
         sImage: filesArray[4],
         sImageCropped: filesArray[5],
         counter: imagesCounter,
-        imgTwoCase: imgtwoCropping,
+        imgTwoCase: imgTwoCropping,
       },
       async: true,
       success: function (res) {
